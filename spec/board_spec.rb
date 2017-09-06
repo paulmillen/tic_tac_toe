@@ -22,7 +22,9 @@ describe Board do
 
     it 'fails if a row is filled with Xs' do
       board.claim_field(0,0,:X)
+      board.claim_field(1,1,:O)
       board.claim_field(0,1,:X)
+      board.claim_field(2,0,:O)
       expect { board.claim_field(0,2,:X) }.to raise_error 'Winner'
     end
 
@@ -34,7 +36,9 @@ describe Board do
 
     it 'fails if a column is filled with Xs' do
       board.claim_field(0,0,:X)
+      board.claim_field(2,2,:O)
       board.claim_field(1,0,:X)
+      board.claim_field(0,2,:O)
       expect { board.claim_field(2,0,:X) }.to raise_error 'Winner'
     end
 
@@ -46,7 +50,9 @@ describe Board do
 
     it 'fails if a diagonal is filled with Xs' do
       board.claim_field(0,0,:X)
+      board.claim_field(0,1,:O)
       board.claim_field(1,1,:X)
+      board.claim_field(1,2,:O)
       expect { board.claim_field(2,2,:X) }.to raise_error 'Winner'
     end
 

@@ -15,8 +15,6 @@ class Board
     fail 'Draw' if draw?
   end
 
-  private
-
   def field_occupied?(row, column)
     @grid[row][column] != 1
   end
@@ -26,16 +24,16 @@ class Board
       return true if row.all? { |field| field === :X }
       return true if row.all? { |field| field === :O }
     end
-    return true if @grid === [ [:X,1,1], [:X,1,1], [:X,1,1] ];
-    return true if @grid === [ [:O,1,1], [:O,1,1], [:O,1,1] ];
-    return true if @grid === [ [1,:X,1], [1,:X,1], [1,:X,1] ];
-    return true if @grid === [ [1,:O,1], [1,:O,1], [1,:O,1] ];
-    return true if @grid === [ [1,1,:X], [1,1,:X], [1,1,:X] ];
-    return true if @grid === [ [1,1,:O], [1,1,:O], [1,1,:O] ];
-    return true if @grid === [ [:X,1,1], [1,:X,1], [1,1,:X] ];
-    return true if @grid === [ [:O,1,1], [1,:O,1], [1,1,:O] ];
-    return true if @grid === [ [1,1,:X], [1,:X,1], [:X,1,1] ];
-    return true if @grid === [ [1,1,:O], [1,:O,1], [:O,1,1] ];
+    return true if @grid[0][0] === :X && @grid[1][0] === :X && @grid[2][0] === :X
+    return true if @grid[0][0] === :O && @grid[1][0] === :O && @grid[2][0] === :O
+    return true if @grid[0][1] === :X && @grid[1][1] === :X && @grid[2][1] === :X
+    return true if @grid[0][1] === :O && @grid[1][1] === :O && @grid[2][1] === :O
+    return true if @grid[0][2] === :X && @grid[1][2] === :X && @grid[2][2] === :X
+    return true if @grid[0][2] === :O && @grid[1][2] === :O && @grid[2][2] === :O
+    return true if @grid[0][0] === :X && @grid[1][1] === :X && @grid[2][2] === :X
+    return true if @grid[0][0] === :O && @grid[1][1] === :O && @grid[2][2] === :O
+    return true if @grid[0][2] === :X && @grid[1][1] === :X && @grid[2][0] === :X
+    return true if @grid[0][2] === :O && @grid[1][1] === :O && @grid[2][0] === :O
     false
   end
 
