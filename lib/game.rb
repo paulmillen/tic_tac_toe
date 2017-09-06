@@ -18,6 +18,15 @@ class Game
     turn_over
   end
 
+  def over?
+    @board.each do |row|
+      row.each do |field|
+        return false if field === 1
+      end
+    end
+    true
+  end
+
   private
 
   def turn_over

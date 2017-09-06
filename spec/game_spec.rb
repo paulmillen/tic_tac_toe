@@ -38,4 +38,23 @@ describe Game do
     end
   end
 
+  describe '#over?' do
+    it 'returns false if the grid has spaces' do
+      expect(game.over?).to be false
+    end
+
+    it 'returns true if the grid is full' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(0,1,game.player_O)
+      game.claim_field(0,2,game.player_X)
+      game.claim_field(1,1,game.player_O)
+      game.claim_field(1,0,game.player_X)
+      game.claim_field(1,2,game.player_O)
+      game.claim_field(2,1,game.player_X)
+      game.claim_field(2,0,game.player_O)
+      game.claim_field(2,2,game.player_X)
+      expect(game.over?).to be true
+    end
+  end
+
 end
