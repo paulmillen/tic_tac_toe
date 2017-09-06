@@ -2,19 +2,19 @@ describe Game do
 
   subject(:game) { described_class.new }
 
-  describe '#current_turn' do
+  describe '#current_player' do
     it "returns the player whose current turn it is" do
-      expect(game.current_turn).to eq :X
-    end
-  end
-
-  describe '#board' do
-    it 'is an empty TicTacToe board upon instantiation' do
-      expect(game.board).to eq [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+      expect(game.current_player).to eq :X
     end
   end
 
   describe '#turn' do
+
+    it "changes the current player" do
+      game.turn(0,0)
+      expect(game.current_player).to eq :O
+    end
+
     it 'fails if the grid is full' do
       game.turn(0,0)
       game.turn(0,1)
