@@ -18,6 +18,24 @@ class Game
     turn_over
   end
 
+  def winner?
+    @board.each do |row|
+      return true if row.all? { |field| field === 'X' }
+      return true if row.all? { |field| field === 'O' }
+    end
+    return true if @board === [ ['X',1,1], ['X',1,1], ['X',1,1] ];
+    return true if @board === [ ['O',1,1], ['O',1,1], ['O',1,1] ];
+    return true if @board === [ [1,'X',1], [1,'X',1], [1,'X',1] ];
+    return true if @board === [ [1,'O',1], [1,'O',1], [1,'O',1] ];
+    return true if @board === [ [1,1,'X'], [1,1,'X'], [1,1,'X'] ];
+    return true if @board === [ [1,1,'O'], [1,1,'O'], [1,1,'O'] ];
+    return true if @board === [ ['X',1,1], [1,'X',1], [1,1,'X'] ];
+    return true if @board === [ ['O',1,1], [1,'O',1], [1,1,'O'] ];
+    return true if @board === [ [1,1,'X'], [1,'X',1], ['X',1,1] ];
+    return true if @board === [ [1,1,'O'], [1,'O',1], ['O',1,1] ];
+    false
+  end
+
   def over?
     @board.each do |row|
       row.each do |field|

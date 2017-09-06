@@ -57,4 +57,52 @@ describe Game do
     end
   end
 
+  describe '#winner?' do
+    it 'returns false if there is no winner' do
+      expect(game.winner?).to be false
+    end
+
+    it 'returns true if a row is filled with Xs' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(0,1,game.player_X)
+      game.claim_field(0,2,game.player_X)
+      expect(game.winner?).to be true
+    end
+
+    it 'returns false if a row is filled with Xs and Os' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(0,1,game.player_O)
+      game.claim_field(0,2,game.player_X)
+      expect(game.winner?).to be false
+    end
+
+    it 'returns true if a column is filled with Xs' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(1,0,game.player_X)
+      game.claim_field(2,0,game.player_X)
+      expect(game.winner?).to be true
+    end
+
+    it 'returns false if a column is filled with Xs and Os' do
+      game.claim_field(0,0,game.player_O)
+      game.claim_field(1,0,game.player_X)
+      game.claim_field(2,0,game.player_O)
+      expect(game.winner?).to be false
+    end
+
+    it 'returns true if a diagonal is filled with Xs' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(1,1,game.player_X)
+      game.claim_field(2,2,game.player_X)
+      expect(game.winner?).to be true
+    end
+
+    it 'returns false if a diagonal is filled with Xs and Os' do
+      game.claim_field(0,0,game.player_X)
+      game.claim_field(1,1,game.player_O)
+      game.claim_field(2,2,game.player_X)
+      expect(game.winner?).to be false
+    end
+  end
+
 end
