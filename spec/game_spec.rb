@@ -2,21 +2,9 @@ describe Game do
 
   subject(:game) { described_class.new }
 
-  describe '#player_X' do
-    it 'returns X' do
-      expect(game.player_X).to eq 'X'
-    end
-  end
-
-  describe '#player_O' do
-    it 'returns O' do
-      expect(game.player_O).to eq 'O'
-    end
-  end
-
   describe '#current_turn' do
     it "returns the player whose current turn it is" do
-      expect(game.current_turn).to eq 'X'
+      expect(game.current_turn).to eq :X
     end
   end
 
@@ -26,82 +14,71 @@ describe Game do
     end
   end
 
-  describe '#claim_field' do
-    it 'allows a player to claim an empty field' do
-      game.claim_field(1,1,game.player_X)
-      expect(game.board).to eq [[1, 1, 1], [1, 'X', 1], [1, 1, 1]]
+  describe '#turn' do
+    it 'fails if the grid is full' do
+      game.turn(0,0)
+      game.turn(0,1)
+      game.turn(0,2)
+      game.turn(1,1)
+      game.turn(1,0)
+      game.turn(1,2)
+      game.turn(2,1)
+      game.turn(2,0)
+      expect { game.turn(2,2) }.to raise_error 'Draw'
     end
 
-    it 'raises an error if the field is not empty' do
-      game.claim_field(1,1,game.player_X)
-      expect { game.claim_field(1,1,game.player_O) }.to raise_error 'field occupied'
-    end
-  end
-
-  describe '#over?' do
-    it 'returns false if the grid has spaces' do
-      expect(game.over?).to be false
+    it 'fails if a row is filled with Xs' do
+      game.turn(0,0,:X)
+      game.turn(0,1,:X)
+      expect { game.turn(0,2,:X) }.to raise_error 'Winner'
     end
 
-    it 'returns true if the grid is full' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(0,1,game.player_O)
-      game.claim_field(0,2,game.player_X)
-      game.claim_field(1,1,game.player_O)
-      game.claim_field(1,0,game.player_X)
-      game.claim_field(1,2,game.player_O)
-      game.claim_field(2,1,game.player_X)
-      game.claim_field(2,0,game.player_O)
-      game.claim_field(2,2,game.player_X)
-      expect(game.over?).to be true
-    end
-  end
-
-  describe '#winner?' do
-    it 'returns false if there is no winner' do
-      expect(game.winner?).to be false
+    it 'fails if a row is filled with Os' do
+      game.turn(0,0,:O)
+      game.turn(0,1,:O)
+      expect { game.turn(0,2,:O) }.to raise_error 'Winner'
     end
 
-    it 'returns true if a row is filled with Xs' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(0,1,game.player_X)
-      game.claim_field(0,2,game.player_X)
-      expect(game.winner?).to be true
+    it 'continues if a row is filled with Xs and Os' do
+      game.turn(0,0,:X)
+      game.turn(0,1,:O)
+      expect { game.turn(0,2) }.not_to raise_error
     end
 
-    it 'returns false if a row is filled with Xs and Os' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(0,1,game.player_O)
-      game.claim_field(0,2,game.player_X)
-      expect(game.winner?).to be false
+    it 'fails if a column is filled with Xs' do
+      game.turn(0,0,:X)
+      game.turn(1,0,:X)
+      expect { game.turn(2,0,:X) }.to raise_error 'Winner'
     end
 
-    it 'returns true if a column is filled with Xs' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(1,0,game.player_X)
-      game.claim_field(2,0,game.player_X)
-      expect(game.winner?).to be true
+    it 'fails if a column is filled with Os' do
+      game.turn(0,0,:O)
+      game.turn(1,0,:O)
+      expect { game.turn(2,0,:O) }.to raise_error 'Winner'
     end
 
-    it 'returns false if a column is filled with Xs and Os' do
-      game.claim_field(0,0,game.player_O)
-      game.claim_field(1,0,game.player_X)
-      game.claim_field(2,0,game.player_O)
-      expect(game.winner?).to be false
+    it 'continues if a column is filled with Xs and Os' do
+      game.turn(0,0,:O)
+      game.turn(1,0,:X)
+      expect { game.turn(2,0,:O) }.not_to raise_error
     end
 
-    it 'returns true if a diagonal is filled with Xs' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(1,1,game.player_X)
-      game.claim_field(2,2,game.player_X)
-      expect(game.winner?).to be true
+    it 'fails if a diagonal is filled with Xs' do
+      game.turn(0,0,:X)
+      game.turn(1,1,:X)
+      expect { game.turn(2,2,:X) }.to raise_error 'Winner'
     end
 
-    it 'returns false if a diagonal is filled with Xs and Os' do
-      game.claim_field(0,0,game.player_X)
-      game.claim_field(1,1,game.player_O)
-      game.claim_field(2,2,game.player_X)
-      expect(game.winner?).to be false
+    it 'fails if a diagonal is filled with Os' do
+      game.turn(0,0,:O)
+      game.turn(1,1,:O)
+      expect { game.turn(2,2,:O) }.to raise_error 'Winner'
+    end
+
+    it 'continues if a diagonal is filled with Xs and Os' do
+      game.turn(0,0,:X)
+      game.turn(1,1,:O)
+      expect{ game.turn(2,2,:X) }.not_to raise_error
     end
   end
 
