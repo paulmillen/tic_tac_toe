@@ -9,11 +9,13 @@ class Board
   end
 
   def claim_field(row, column, player)
-    fail 'field occupied' if field_occupied?(row, column)
+    fail ArgumentError, 'field occupied' if field_occupied?(row, column)
     @grid[row][column] = player
-    fail 'Winner' if winner?
-    fail 'Draw' if draw?
+    return "#{player.to_s} Wins" if winner?
+    return 'Draw' if draw?
   end
+
+  private
 
   def field_occupied?(row, column)
     @grid[row][column] != 1
